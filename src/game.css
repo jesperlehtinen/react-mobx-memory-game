@@ -19,3 +19,8 @@ h1, h2, .restart {
   font-size: 16px;
   display: block;
 }
+div.title {
+  color: white;
+  font-size: 36px;
+  padding: 20px;
+}

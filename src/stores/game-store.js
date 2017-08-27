@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import shuffle from "../shuffle";
+import uuid from "uuid/v4";
 
 const images = [
     "/images/dog-1.jpg",
@@ -15,11 +16,13 @@ const images = [
  * Model for a Card
  */
 class Card {
+    id;
     image;
     @observable flipped = false;
     @observable match = false;
 
     constructor(image) {
+        this.id = uuid();
         this.image = image;
     }
 
@@ -55,9 +58,19 @@ export default class GameStore {
      */
     @action flip(card) {
         if(!this.blocked) {
+            // don't allow multiple flips for a card while it's up
+            if(this.flippedCards.length === 1 && this.flippedCards[0].id === card.id) {
+                return;
+            }
+            // don't allow flipping already matched cards
+            if(card.match) {
+                return;
+            }
+
             card.flip();
             this.flippedCards.push(card);
 
+            // if we have two cards up, check for match
             if(this.flippedCards.length === 2) {
                 this.blocked = true;
                 this.increaseAttempts();
