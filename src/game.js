@@ -30,7 +30,7 @@ export default class Game extends React.Component {
         shuffle([...images, ...images])
     );
 
-    handleCardClick = (flipped, unflipCallback) => {
+    handleCardClick = (flipped, unflipCallback, matchCallback) => {
         if (this.state.matchedCards.some((photo) => flipped === photo.image)) {
             return;
         }
@@ -38,7 +38,8 @@ export default class Game extends React.Component {
         this.setState({
             flippedCards: [...this.state.flippedCards, {
                 image: flipped,
-                callback: unflipCallback
+                callback: unflipCallback,
+                matchCallback: matchCallback
             }]
         }, this.handleFlippedCardChange);
     };
@@ -55,6 +56,9 @@ export default class Game extends React.Component {
     };
 
     handleFlippedMatch = () => {
+        this.state.flippedCards.forEach(card => {
+            card.matchCallback();
+        });
         this.setState({matchedCards: [...this.state.matchedCards, ...this.state.flippedCards], flippedCards: []}, this.checkGameDone);
     };
 

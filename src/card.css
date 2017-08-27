@@ -6,6 +6,11 @@
     border: 10px solid white;
 }
 
+.card.match {
+    border: 10px solid #99fca8;
+    transition: border 0.4s ease-in;
+}
+
 .card:hover {
     cursor: pointer;
 }
