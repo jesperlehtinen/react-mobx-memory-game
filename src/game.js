@@ -2,6 +2,7 @@ import React from "react";
 import Card from "./card"
 import './game.css';
 import shuffle from "./shuffle"
+import SuccessMessage from "./success-message";
 
 const images = [
     "/images/dog-1.jpg",
@@ -95,12 +96,7 @@ export default class Game extends React.Component {
     render() {
         if (this.state.done) {
             return (
-                <div className="container">
-                    <h1>Victory!</h1>
-                    <h2>Score: {this.state.attempts}</h2>
-                    <h2>Best: {this.state.best}</h2>
-                    <button className="restart" onClick={this.restartGame}>Restart</button>
-                </div>
+                <SuccessMessage attempts={this.state.attempts} best={this.state.best} restartGame={this.restartGame}/>
             )
         } else {
             return (
@@ -111,7 +107,6 @@ export default class Game extends React.Component {
                               onFlip={this.handleCardClick}
                               key={index}/>
                     ))}
-
                 </div>
             )
         }
