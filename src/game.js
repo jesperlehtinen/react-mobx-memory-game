@@ -1,35 +1,23 @@
 import React from "react";
-import Card from "./card"
+import Card from "./card";
 import './game.css';
-import shuffle from "./shuffle"
 import SuccessMessage from "./success-message";
+import { inject } from "mobx-react";
 
-const images = [
-    "/images/dog-1.jpg",
-    "/images/dog-2.jpg",
-    "/images/dog-3.jpg",
-    "/images/dog-4.jpg",
-    "/images/dog-5.jpg",
-    "/images/dog-6.jpg",
-];
-
+@inject("gameStore")
 export default class Game extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            cards: this.duplicatedAndShuffledCards(),
+            cards: [],
             flippedCards: [],
             matchedCards: [],
             done: false,
             attempts: 0,
-            best: 99999
+            best: Number.MAX_SAFE_INTEGER
         };
     };
-
-    duplicatedAndShuffledCards = () => (
-        shuffle([...images, ...images])
-    );
 
     handleCardClick = (flipped, unflipCallback, matchCallback) => {
         if (this.state.matchedCards.some((photo) => flipped === photo.image)) {
@@ -39,7 +27,7 @@ export default class Game extends React.Component {
         this.setState({
             flippedCards: [...this.state.flippedCards, {
                 image: flipped,
-                callback: unflipCallback,
+                unflipCallback: unflipCallback,
                 matchCallback: matchCallback
             }]
         }, this.handleFlippedCardChange);
@@ -66,7 +54,7 @@ export default class Game extends React.Component {
     handleFlippedMisMatch = () => {
         setTimeout(() => {
             this.state.flippedCards.forEach(card => {
-                card.callback();
+                card.unflipCallback();
             });
             this.setState({flippedCards: []});
         }, 800);
@@ -84,8 +72,9 @@ export default class Game extends React.Component {
     };
 
     restartGame = () => {
+        const { cards } = this.props.gameStore;
         this.setState({
-            cards: this.duplicatedAndShuffledCards(),
+            cards: cards,
             flippedCards: [],
             matchedCards: [],
             done: false,
@@ -99,14 +88,15 @@ export default class Game extends React.Component {
                 <SuccessMessage attempts={this.state.attempts} best={this.state.best} restartGame={this.restartGame}/>
             )
         } else {
+            const { cards } = this.props.gameStore;
             return (
                 <div>
-                    {this.state.cards.map((card, index) => (
+                    { cards.map((card, index) => (
                         <Card image={card}
                               canFlip={this.state.flippedCards.length < 2}
                               onFlip={this.handleCardClick}
                               key={index}/>
-                    ))}
+                    )) }
                 </div>
             )
         }

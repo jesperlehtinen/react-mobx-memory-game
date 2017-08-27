@@ -1,6 +1,8 @@
 import React from "react";
 import './card.css';
+import { inject } from "mobx-react";
 
+@inject("gameStore")
 export default class Card extends React.Component {
 
     constructor(props) {

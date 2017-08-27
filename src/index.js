@@ -1,6 +1,17 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Game from "./game"
+import Game from "./game";
+import { Provider } from "mobx-react";
+import GameStore from "./stores/game-store";
 
-ReactDOM.render(<Game/>, document.getElementById('root'));
+const stores = {
+    gameStore: new GameStore()
+};
+
+const App = () =>
+    <Provider {...stores}>
+        <Game/>
+    </Provider>
+
+ReactDOM.render(<App/>, document.getElementById('root'));
