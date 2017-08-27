@@ -10,6 +10,10 @@ const images = [
     "/images/dog-6.jpg",
 ];
 
+
+/**
+ * Model for a Card
+ */
 class Card {
     image;
     @observable flipped = false;
@@ -28,6 +32,10 @@ class Card {
     }
 }
 
+
+/**
+ * Store for a game - contains all game logic
+ */
 export default class GameStore {
     @observable cards = [];
     @observable flippedCards = [];
@@ -41,6 +49,10 @@ export default class GameStore {
         this.cards = this.duplicatedAndShuffledCards();
     }
 
+    /**
+     * Flip a card over, and check if match with another flipped card
+     * @param card
+     */
     @action flip(card) {
         if(!this.blocked) {
             card.flip();
@@ -58,14 +70,9 @@ export default class GameStore {
         }
     }
 
-    @action setBest(best) {
-        this.best = best;
-    }
-
-    @action setDone(done) {
-        this.done = done;
-    }
-
+    /**
+     * Reset the game to initial state
+     */
     @action resetGame() {
         this.cards = this.duplicatedAndShuffledCards();
         this.flippedCards = [];
@@ -74,6 +81,9 @@ export default class GameStore {
         this.setDone(false);
     }
 
+    /**
+     * Handle a match - add the cards to matched cards, reset flipped cards
+     */
     @action handleMatch() {
         this.flippedCards.forEach(card => {
             card.matched();
@@ -84,6 +94,9 @@ export default class GameStore {
         this.blocked = false;
     }
 
+    /**
+     * Handle mismatch - flip all flipped cards back over again
+     */
     @action handleMisMatch() {
         setTimeout(() => {
             this.flippedCards.forEach(card => card.flip());
@@ -92,6 +105,9 @@ export default class GameStore {
         }, 800);
     }
 
+    /**
+     * Check if all cards are matched and the game is over
+     */
     @action checkGameDone() {
         if (this.matchedCards.length === 12) {
             setTimeout(() => {
@@ -107,6 +123,17 @@ export default class GameStore {
         this.attempts = this.attempts + 1;
     }
 
+    @action setBest(best) {
+        this.best = best;
+    }
+
+    @action setDone(done) {
+        this.done = done;
+    }
+
+    /**
+     * Returns an array with Cards mapped with image (2 of each)
+     */
     duplicatedAndShuffledCards() {
         return shuffle([...images, ...images]).map(image => (new Card(image)))
     }
