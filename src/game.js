@@ -20,7 +20,9 @@ export default class Game extends React.Component {
             cards: this.duplicatedAndShuffledCards(),
             flippedCards: [],
             matchedCards: [],
-            done: false
+            done: false,
+            attempts: 0,
+            best: 99999
         };
     };
 
@@ -43,6 +45,7 @@ export default class Game extends React.Component {
 
     handleFlippedCardChange = () => {
         if (this.state.flippedCards.length === 2) {
+            this.setState({attempts: this.state.attempts + 1});
             if (this.state.flippedCards[0].image === this.state.flippedCards[1].image) {
                 this.handleFlippedMatch();
             } else {
@@ -67,6 +70,9 @@ export default class Game extends React.Component {
     checkGameDone = () => {
         if (this.state.matchedCards.length === 12) {
             setTimeout(() => {
+                if(this.state.attempts < this.state.best) {
+                    this.setState({best: this.state.attempts});
+                }
                 this.setState({done: true});
             }, 1000);
         }
@@ -77,7 +83,8 @@ export default class Game extends React.Component {
             cards: this.duplicatedAndShuffledCards(),
             flippedCards: [],
             matchedCards: [],
-            done: false
+            done: false,
+            attempts: 0
         });
     };
 
@@ -85,7 +92,9 @@ export default class Game extends React.Component {
         if (this.state.done) {
             return (
                 <div className="container">
-                    <h1 className="victory">Victory!</h1>
+                    <h1>Victory!</h1>
+                    <h2>Score: {this.state.attempts}</h2>
+                    <h2>Best: {this.state.best}</h2>
                     <button className="restart" onClick={this.restartGame}>Restart</button>
                 </div>
             )
@@ -98,6 +107,7 @@ export default class Game extends React.Component {
                               onFlip={this.handleCardClick}
                               key={index}/>
                     ))}
+
                 </div>
             )
         }

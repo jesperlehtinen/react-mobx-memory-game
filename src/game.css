@@ -2,11 +2,11 @@ body {
     background-color: black;
 }
 
-.victory {
+h1, h2, .restart {
   color: white;
-  width: 120px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -14,15 +14,14 @@ body {
 .container {
   width: auto;
   height: 500px;
+  text-align: center;
 }
 .restart {
+  margin-top: 20px;
+  color: black;
   width: 100px;
-  height: 30px;
   font-size: 16px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
