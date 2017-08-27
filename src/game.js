@@ -18,7 +18,8 @@ export default class Game extends React.Component {
         super(props);
         this.state = {
             cards: this.duplicatedAndShuffledCards(),
-            flippedCards: []
+            flippedCards: [],
+            matchedCards: []
         };
     };
 
@@ -27,18 +28,26 @@ export default class Game extends React.Component {
     );
 
     handleCardClick = (flipped, unflipCallback) => {
-        const card = {image: flipped, callback: unflipCallback};
-        this.setState({flippedCards: [...this.state.flippedCards, card]}, this.handleFlippedCardChange);
+        if(this.state.matchedCards.some((photo) => flipped === photo.image)) {
+            return;
+        }
+
+        this.setState({flippedCards: [...this.state.flippedCards, {image: flipped, callback: unflipCallback}]}, this.handleFlippedCardChange);
     };
 
     handleFlippedCardChange = () => {
         if(this.state.flippedCards.length === 2) {
-            setTimeout(() => {
-                this.state.flippedCards.forEach(card => {
-                    card.callback();
-                });
+            if(this.state.flippedCards[0].image === this.state.flippedCards[1].image) {
+                this.setState({matchedCards: [...this.state.matchedCards, ...this.state.flippedCards]});
                 this.setState({flippedCards: []});
-            }, 1000);
+            } else {
+                setTimeout(() => {
+                    this.state.flippedCards.forEach(card => {
+                        card.callback();
+                    });
+                    this.setState({flippedCards: []});
+                }, 800);
+            }
         }
     };
 
@@ -46,10 +55,10 @@ export default class Game extends React.Component {
         return (
             <div>
                 {this.state.cards.map((card, index) => (
-                    <Card canFlip={this.state.flippedCards.length < 2}
-                          image={card}
+                    <Card image={card}
+                          canFlip={this.state.flippedCards.length < 2}
                           onFlip={this.handleCardClick}
-                          key={index}/>
+                          key={index} />
                 ))}
             </div>
         )
