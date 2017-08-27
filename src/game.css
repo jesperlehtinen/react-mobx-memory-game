@@ -1,3 +1,30 @@
 body {
     background-color: black;
 }
+
+.victory {
+  color: white;
+  width: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.container {
+  width: auto;
+  height: 500px;
+}
+.restart {
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
