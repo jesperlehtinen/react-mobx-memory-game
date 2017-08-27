@@ -35,21 +35,25 @@ export default class GameStore {
     @observable attempts = 0;
     @observable best = Number.MAX_SAFE_INTEGER;
     @observable done = false;
+    blocked = false;
 
     constructor() {
         this.cards = this.duplicatedAndShuffledCards();
     }
 
     @action flip(card) {
-        card.flip();
-        this.flippedCards.push(card);
+        if(!this.blocked) {
+            card.flip();
+            this.flippedCards.push(card);
 
-        if(this.flippedCards.length === 2) {
-            this.increaseAttempts();
-            if(this.flippedCards[0].image === this.flippedCards[1].image) {
-                this.handleMatch();
-            } else {
-                this.handleMisMatch();
+            if(this.flippedCards.length === 2) {
+                this.blocked = true;
+                this.increaseAttempts();
+                if(this.flippedCards[0].image === this.flippedCards[1].image) {
+                    this.handleMatch();
+                } else {
+                    this.handleMisMatch();
+                }
             }
         }
     }
@@ -63,7 +67,6 @@ export default class GameStore {
     }
 
     @action resetGame() {
-        debugger;
         this.cards = this.duplicatedAndShuffledCards();
         this.flippedCards = [];
         this.matchedCards = [];
@@ -78,12 +81,14 @@ export default class GameStore {
         });
         this.flippedCards = [];
         this.checkGameDone();
+        this.blocked = false;
     }
 
     @action handleMisMatch() {
         setTimeout(() => {
             this.flippedCards.forEach(card => card.flip());
             this.flippedCards = [];
+            this.blocked = false;
         }, 800);
     }
 
