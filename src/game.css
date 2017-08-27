@@ -1,7 +1,8 @@
-body {
-    background-color: black;
+.container {
+  width: auto;
+  height: 500px;
+  text-align: center;
 }
-
 h1, h2, .restart {
   color: white;
   margin: auto;
@@ -11,19 +12,10 @@ h1, h2, .restart {
   top: 50%;
   transform: translateY(-50%);
 }
-.container {
-  width: auto;
-  height: 500px;
-  text-align: center;
-}
 .restart {
-  margin-top: 20px;
   color: black;
+  margin-top: 20px;
   width: 100px;
   font-size: 16px;
   display: block;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
 }

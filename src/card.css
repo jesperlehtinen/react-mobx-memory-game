@@ -1,20 +1,17 @@
 .card {
-    margin: 10px;
+    margin: 8px;
     background: white;
     display: inline-block;
     float: left;
     border: 10px solid white;
 }
-
 .card.match {
     border: 10px solid #99fca8;
     transition: border 0.4s ease-in;
 }
-
 .card:hover {
     cursor: pointer;
 }
-
 .card .image {
     width: 200px;
     height: 200px;
@@ -23,7 +20,6 @@
     opacity: 0;
     transition: opacity 0.2s ease-in;
 }
-
 .card .image.flipped {
     opacity: 1;
 }
