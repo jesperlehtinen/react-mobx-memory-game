@@ -16,7 +16,7 @@ export default class Game extends React.Component {
             const { cards } = this.props.gameStore;
             return (
                 <div>
-                    <div className="title">Memory</div>
+                    <div className="title">Animal memory game</div>
                     {cards.map((card, index) =>
                         (<Card card={card} key={index}/>)
                     )}

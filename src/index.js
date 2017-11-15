@@ -12,6 +12,6 @@ const stores = {
 const App = () =>
     <Provider {...stores}>
         <Game/>
-    </Provider>
+    </Provider>;
 
 ReactDOM.render(<App/>, document.getElementById('root'));
